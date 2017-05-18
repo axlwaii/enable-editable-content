@@ -25,7 +25,7 @@ var EditableContentBg = (function() {
         if(info.status === "loading" && index >= 0) {
             _activatedTabs.splice(index, 1);
             _injectedTabs.splice(injectedIndex, 1);
-
+            chrome.tabs.executeScript(null, {code: '_EditableContent.remove()'});
             chrome.browserAction.setIcon({path: 'icon.png'});
         }
     };
