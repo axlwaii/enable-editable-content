@@ -4,7 +4,7 @@ Makes (almost) every website editable.
 
 ![](https://media2.giphy.com/media/12jHPvCe8Nh87C/giphy.gif)
 
-# Chrome Webstore
+## Chrome Webstore
 https://chrome.google.com/webstore/detail/enable-editable-content/oofmfipbfpeapcgemmdfaeemphjmcffi
 
 ## Icon Credit
