@@ -4,6 +4,9 @@ Makes (almost) every website editable.
 
 ![](https://media2.giphy.com/media/12jHPvCe8Nh87C/giphy.gif)
 
+# Chrome Webstore
+https://chrome.google.com/webstore/detail/enable-editable-content/oofmfipbfpeapcgemmdfaeemphjmcffi
+
 ## Icon Credit
 http://www.fancyicons.com/free-icon/103/office-icon-set/free-edit-icon-png/
 
