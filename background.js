@@ -1,70 +1,11 @@
 /* Define EditableContentBg Module */
+const browserAPI = browser || chrome;
 
-var EditableContentBg = (function() {
-    var init,
-        toggleEditable,
-        tabChanged,
-        onUpdated,
-        onRemoved,
+const EditableContentBg = (() => {
+    let init,
+        toggleEditable;
 
-        _activatedTabs = [],
-        _injectedTabs = [];
-
-    /**
-     * onUpdated
-     *
-     * Changes the icon state on tab refresh
-     *
-     * @param   {int}    tabId - id of the refreshed tab
-     * @param   {Object} info  - includes status informations
-     **/
-    onUpdated = function(tabId, info) {
-        var index = _activatedTabs.indexOf(tabId),
-            injectedIndex = _injectedTabs.indexOf(tabId);
-
-        if(info.status === "loading" && index >= 0) {
-            _activatedTabs.splice(index, 1);
-            _injectedTabs.splice(injectedIndex, 1);
-            chrome.tabs.executeScript(null, {code: '_EditableContent.remove()'});
-            chrome.browserAction.setIcon({path: 'icon.png'});
-        }
-    };
-
-    /**
-     * onRemoved
-     *
-     * Removes tab from active tabs array when tab closes
-     *
-     * @param {int} tabId - id of the closed tab
-     **/
-    onRemoved = function(tabId) {
-        var index = _activatedTabs.indexOf(tabId),
-            injectedIndex = _injectedTabs.indexOf(tabId);
-
-        if(index >= 0) {
-            _activatedTabs.splice(index, 1);
-            _injectedTabs.splice(injectedIndex, 1);
-        } else if (injectedIndex >= 0) {
-            _injectedTabs.splice(injectedIndex, 1);
-        }
-    };
-
-    /**
-     * tabChanged
-     *
-     * Checks if the plugin was enabled earlier and
-     * sets the correct icon
-     *
-     * @param {Object} tab - current tab object
-     **/
-    tabChanged = function(tab) {
-        var index = _activatedTabs.indexOf(tab.tabId);
-        if(index >= 0) {
-            chrome.browserAction.setIcon({path: 'icon-active.png'});
-        } else {
-            chrome.browserAction.setIcon({path: 'icon.png'});
-        }
-    };
+    const activatedInTabs = [];
 
     /**
      * toggleEditable
@@ -75,25 +16,19 @@ var EditableContentBg = (function() {
      * @param {Object} tab - current tab object
      **/
     toggleEditable = function(tab) {
-        var tabId = tab.id,
-            index = _activatedTabs.indexOf(tabId);
-
-        if(index < 0) {
-            var injected = (_injectedTabs.indexOf(tabId) >= 0);
-
-            if(injected) {
-                chrome.tabs.executeScript(null, {code: '_EditableContent.enable();'});
-            } else {
-                chrome.tabs.executeScript(null, {file: "content.js"});
-                _injectedTabs.push(tabId);
-            }
-
-            _activatedTabs.push(tab.id);
-            chrome.browserAction.setIcon({path: 'icon-active.png'});
+        const tabIndex = activatedInTabs.indexOf(tab.id);
+        if (tabIndex >= 0) {
+             browserAPI.browserAction.setIcon({tabId: tab.id, path: "icon.png"});
+            browserAPI.tabs.executeScript({
+                code: 'document.body.removeAttribute("contenteditable");'
+            });
+            activatedInTabs.splice(tabIndex, 1);
         } else {
-            _activatedTabs.splice(index, 1);
-            chrome.tabs.executeScript(null, {code: '_EditableContent.remove()'});
-            chrome.browserAction.setIcon({path: 'icon.png'});
+             browserAPI.browserAction.setIcon({tabId: tab.id, path: "icon-active.png"});
+             browserAPI.tabs.executeScript({
+                code: 'document.body.setAttribute("contenteditable", true);'
+            });
+            activatedInTabs.push(tabIndex);
         }
     };
 
@@ -103,10 +38,7 @@ var EditableContentBg = (function() {
      * Sets browserAction and tabs events
      **/
     init = function() {
-        chrome.browserAction.onClicked.addListener(toggleEditable);
-        chrome.tabs.onUpdated.addListener(onUpdated);
-        chrome.tabs.onRemoved.addListener(onRemoved);
-        chrome.tabs.onActivated.addListener(tabChanged);
+        browserAPI.browserAction.onClicked.addListener(toggleEditable);
     };
 
     return {
