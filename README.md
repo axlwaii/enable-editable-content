@@ -1,4 +1,4 @@
-# Enable Editable Content - Chrome Extension
+# Enable Editable Content - Browser Extension
 
 Makes (almost) every website editable.
 
