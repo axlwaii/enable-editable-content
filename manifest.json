@@ -2,7 +2,7 @@
 {
   "manifest_version": 2,
   "name": "Enable Editable Content",
-  "version": "2.0",
+  "version": "2.0.0",
   "description": "This chrome extension makes (almost) every website editable",
   "icons": {
     "16": "icon16.png",

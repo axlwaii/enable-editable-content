@@ -4,6 +4,9 @@ Makes (almost) every website editable.
 
 ![](https://media2.giphy.com/media/12jHPvCe8Nh87C/giphy.gif)
 
+## Firefox browser add-ons
+https://addons.mozilla.org/en-US/firefox/addon/enable-editable-content/
+
 ## Chrome Webstore
 https://chrome.google.com/webstore/detail/enable-editable-content/oofmfipbfpeapcgemmdfaeemphjmcffi
 
