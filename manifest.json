@@ -1,8 +1,8 @@
 
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Enable Editable Content",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "This chrome extension makes (almost) every website editable",
   "icons": {
     "16": "icon16.png",
@@ -10,11 +10,12 @@
     "128": "icon128.png"
   },
   "author": "Markus Waitl",
-  "browser_action": {
+  "action": {
    "default_icon": "icon.png"
   },
-  "background": { "scripts": ["background.js"] },
+  "background": { "service_worker": "background.js" },
   "permissions": [
-    "activeTab"
-   ]
+    "activeTab",
+    "scripting"
+  ]
 }
